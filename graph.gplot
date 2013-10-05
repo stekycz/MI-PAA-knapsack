@@ -1,0 +1,31 @@
+reset
+
+# wxt
+#set terminal wxt size 1024,768 enhanced font 'Verdana,11' persist
+# png
+set terminal pngcairo size 1024,768 enhanced font 'Verdana,11'
+set output 'graph.png'
+# svg
+#set terminal svg size 1024,768 fname 'Verdana, Helvetica, Arial, sans-serif' \
+#fsize '11'
+#set output 'graph.svg'
+
+set border linewidth 1.5
+set style line 1 lc rgb '#ff0000' lt 1 lw 2 pt 7 pi -1 ps 1.5
+set style line 2 lc rgb '#0060ad' lt 1 lw 2 pt 7 pi -1 ps 1.5
+set pointintervalbox 3
+
+set tics scale 0.75
+
+set xrange [0:44]
+set yrange [0.00001:]
+
+set title "Knapsack times"
+set xlabel "Items count"
+set ylabel "Time (s)"
+
+set logscale y
+set grid
+
+plot "times.dat" title "Average time" with linespoints ls 1,\
+	exp(x)/100000 title "Exponential function" ls 2
