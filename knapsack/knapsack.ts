@@ -243,7 +243,7 @@ export class ProblemSolver {
 			this._timer.onBegin();
 		}
 
-		var solution = this._find(items, maxWeight);
+		var solution = this._find(items.slice(0), maxWeight);
 
 		if (this._timer) {
 			this._timer.onFinish();
