@@ -8,10 +8,10 @@ test: all
 	node app.js -t -f zadani/knap_20.inst.dat | diff reseni/knap_20.sol.dat -
 
 messure-quick: all
-	node parallel-runner.js -q -i ./zadani
+	node parallel-runner.js -m 20 -i ./zadani
 
 messure:
-	node parallel-runner.js -i ./zadani
+	node parallel-runner.js -m 27 -i ./zadani
 
 graph-quick:
 	make -s messure-quick > times.dat

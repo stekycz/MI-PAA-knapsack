@@ -8,7 +8,7 @@ import child_process = require('child_process');
 var opt = require("node-getopt").create([
 	['i', 'instances=ARG', 'directory with instances'],
 	['j', 'jobs=ARG', 'count of parallel jobs'],
-	['q', 'quick', 'process only quick jobs']
+	['m', 'max=ARG', 'count of maximum items']
 ])
 .bindHelp();
 
@@ -28,9 +28,10 @@ if (options.options.jobs !== undefined && options.options.jobs !== null && optio
 var base_dir = options.options.instances;
 var files = fs.readdirSync(base_dir);
 
-if (options.options.quick !== undefined && options.options.quick !== null && options.options.quick != "") {
+if (options.options.max !== undefined && options.options.max !== null && options.options.max != "") {
+	var max_items = parseInt(options.options.max);
 	files = files.filter(function (item : string) {
-		return parseInt(item.trim().replace(/^knap_/, '').replace(/\.inst\.dat$/, '')) <= 20;
+		return parseInt(item.trim().replace(/^knap_/, '').replace(/\.inst\.dat$/, '')) <= max_items;
 	});
 }
 
