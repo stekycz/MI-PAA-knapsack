@@ -1,5 +1,6 @@
 ///<reference path='definitions/node.d.ts' />
 ///<reference path="definitions/node-getopt.d.ts"/>
+///<reference path="common.ts"/>
 ///<reference path="knapsack/knapsack.ts"/>
 ///<reference path="knapsack/bruteforce.ts"/>
 ///<reference path="knapsack/priceweight.ts"/>
@@ -13,7 +14,8 @@ var opt = require("node-getopt").create([
 	['f', 'filepath=ARG', 'path to file with testing instances'],
 	['s', 'strategy=ARG', 'strategy for finding solution'],
 	['t', 'test', 'turns correctness testing on'],
-	['m', 'messure', 'turns time messure on']
+	['m', 'messure', 'turns time messure on'],
+	['e', 'error=ARG', 'turns error messure on with comparison to solution in given file']
 ])
 .setHelp(
 	"Usage: node app.js --filepath=<filepath> --strategy=<strategy>\n" +
@@ -21,7 +23,8 @@ var opt = require("node-getopt").create([
 	"  -f, --filepath=ARG  path to file with testing instances\n" +
 	"  -s, --strategy=ARG  strategy for finding solution\n" +
 	"  -t, --test          turns correctness testing on\n" +
-	"  -m, --messure       turns time messure on\n"
+	"  -m, --messure       turns time messure on\n" +
+	"  -e, --error=ARG     turns error messure on with comparison to solution in given directory\n"
 )
 .bindHelp();
 
@@ -61,4 +64,8 @@ var timer = common.get_option(options.options.messure, null, function (value : a
 	return new knapsack.SystemTimer();
 });
 
-knapsack.run(options.options.filepath, strategy, outputFormatter, timer);
+var errorCounter = common.get_option(options.options.error, null, function (value : any) : knapsack.ErrorCounter {
+	return new knapsack.ErrorCounter(value);
+});
+
+knapsack.run(options.options.filepath, strategy, outputFormatter, timer, errorCounter);

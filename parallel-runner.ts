@@ -13,7 +13,8 @@ var opt = require("node-getopt").create([
 	['j', 'jobs=ARG', 'count of parallel jobs'],
 	['d', 'difficulty=ARG', 'count of maximum items in one instance'],
 	['t', 'test=ARG', 'turns correctness testing on'],
-	['m', 'messure', 'turns time messure on']
+	['m', 'messure', 'turns time messure on'],
+	['e', 'error=ARG', 'turns error messure on']
 ])
 .setHelp(
 	"Usage: node app.js --instances=<instances> --strategy=<strategy>\n" +
@@ -23,7 +24,8 @@ var opt = require("node-getopt").create([
 	"  -j, --jobs=ARG        count of parallel jobs\n" +
 	"  -d, --difficulty=ARG  count of maximum items in one instance\n" +
 	"  -t, --test=ARG        turns correctness testing on (using given path as directory with corrent results)\n" +
-	"  -m, --messure         turns time messure on\n"
+	"  -m, --messure         turns time messure on\n" +
+	"  -e, --error=ARG       turns error messure on (using given path as directory with optimal prices)\n"
 )
 .bindHelp();
 
@@ -51,9 +53,10 @@ if (max_items !== null) {
 }
 
 var test = common.get_option(options.options.test, null);
-var messure = common.get_option(options.options.messure, false, function (value : any) : boolean {
+var time_messure = common.get_option(options.options.messure, false, function (value : any) : boolean {
 	return true;
 });
+var error_messure = common.get_option(options.options.error, null);
 
 files.sort(function (a : string, b : string) : number {
 	var num_a = common.parse_items_count(a);
@@ -61,7 +64,12 @@ files.sort(function (a : string, b : string) : number {
 	return num_b - num_a;
 });
 
-function writeTimes(lines : string[]) : void {
+function writeLines(lines : string[]) : void {
+	lines.sort(function (a : string, b : string) : number {
+		var num_a = parseInt(a.split(/\s+/).shift());
+		var num_b = parseInt(b.split(/\s+/).shift());
+		return num_a - num_b;
+	});
 	for (var i = 0; i < lines.length; i++) {
 		console.log(lines[i].trim());
 	}
@@ -69,8 +77,10 @@ function writeTimes(lines : string[]) : void {
 
 function build_command(filename : string) : string {
 	var command = "node app.js -f " + base_dir + "/" + filename + " -s " + strategy;
-	if (messure) {
+	if (time_messure) {
 		command += " -m";
+	} else if (error_messure) {
+		command += " -e " + error_messure + "/knap_" + common.parse_items_count(filename) + ".sol.dat";
 	} else if (test) {
 		command += " -t | diff " + test + "/knap_" + common.parse_items_count(filename) + ".sol.dat -";
 	}
@@ -89,7 +99,7 @@ function bindEvents(child : child_process.ChildProcess) : void {
 	});
 	child.on("close", function (code : number, signal : string) : void {
 		if (childs.length <= 0) {
-			writeTimes(results);
+			writeLines(results);
 		}
 	});
 }

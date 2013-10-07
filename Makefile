@@ -10,11 +10,17 @@ test-quick: all
 test: all
 	node parallel-runner.js -i ./zadani -d $(ITEMS_COUNT) -t ./reseni
 
-messure-quick: all
+time-messure-quick: all
 	node parallel-runner.js -i ./zadani -d $(QUICK_ITEMS_COUNT) -m
 
-messure: all
+time-messure: all
 	node parallel-runner.js -i ./zadani -d $(ITEMS_COUNT) -m
+
+error-messure-quick: all
+	node parallel-runner.js -i ./zadani -s priceweight -d $(QUICK_ITEMS_COUNT) -e ./reseni
+
+error-messure: all
+	node parallel-runner.js -i ./zadani -d $(ITEMS_COUNT) -e ./reseni
 
 graph-quick:
 	make -s messure-quick > times.dat
@@ -23,3 +29,11 @@ graph-quick:
 graph:
 	make -s messure > times.dat
 	gnuplot graph.gplot
+
+error-graph-quick:
+	make -s error-messure-quick > errors.dat
+	gnuplot error-graph.gplot
+
+error-graph:
+	make -s error-messure > errors.dat
+	gnuplot error-graph.gplot
