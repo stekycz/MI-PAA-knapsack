@@ -1,5 +1,5 @@
 QUICK_ITEMS_COUNT = 20
-ITEMS_COUNT = 27
+ITEMS_COUNT = 50
 
 # Compilation
 
