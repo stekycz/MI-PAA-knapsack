@@ -4,57 +4,61 @@
 ///<reference path="knapsack/bruteforce.ts"/>
 ///<reference path="knapsack/priceweight.ts"/>
 
+import common = require("common");
 import knapsack = require("knapsack/knapsack");
 import bruteforce = require("knapsack/bruteforce");
 import priceweight = require("knapsack/priceweight");
+
 var opt = require("node-getopt").create([
 	['f', 'filepath=ARG', 'path to file with testing instances'],
-	['s', 'strategy=ARG', 'selects strategy for finding solution'],
+	['s', 'strategy=ARG', 'strategy for finding solution'],
 	['t', 'test', 'turns correctness testing on'],
-	['m', 'messure', 'turns time messure on'],
-	['h', 'help', 'display this help']
+	['m', 'messure', 'turns time messure on']
 ])
 .setHelp(
-	"Usage: node app.js --filepath=<filepath>\n" +
+	"Usage: node app.js --filepath=<filepath> --strategy=<strategy>\n" +
 	"\n" +
 	"  -f, --filepath=ARG  path to file with testing instances\n" +
-	"  -s, --strategy=ARG  selects strategy for finding solution (bruteforce by default)" +
-	"  -t, --test          turns correctness testing on" +
-	"  -m, --messure       turns time messure on" +
-	"  -h, --help          display this help"
+	"  -s, --strategy=ARG  strategy for finding solution\n" +
+	"  -t, --test          turns correctness testing on\n" +
+	"  -m, --messure       turns time messure on\n"
 )
 .bindHelp();
 
 var options = opt.parseSystem();
 
-if (!options.options.filepath || options.options.filepath == "") {
-	console.info("Missing argument filepath\n");
+var filepath = common.get_option(options.options.filepath, null);
+if (filepath === null) {
+	console.info("Missing parameter filepath\n");
 	opt.showHelp();
 	return 1;
 }
 
-var timer = null;
-var outputFormatter = null;
-
-if (options.options.test) {
-	outputFormatter = new knapsack.OutputFormatter();
-}
-if (options.options.messure) {
-	timer = new knapsack.SystemTimer();
-}
-
-var strategy = bruteforce.create();
-if (options.options.strategy) {
-	switch (options.options.strategy) {
+var strategy = common.get_option(options.options.strategy, null, function (value : any) : knapsack.ProblemSolver {
+	switch (value) {
 		case "priceweight":
-			strategy = priceweight.create()
+			return priceweight.create()
 			break;
 		case "bruteforce":
+			return bruteforce.create();
 			break;
 		default:
 			throw new Error("Unknown strategy");
 			break;
 	}
+});
+if (strategy === null) {
+	console.info("Missing parameter strategy\n");
+	opt.showHelp();
+	return 1;
 }
+
+var outputFormatter = common.get_option(options.options.test, null, function (value : any) : knapsack.OutputFormatter {
+	return new knapsack.OutputFormatter();
+});
+
+var timer = common.get_option(options.options.messure, null, function (value : any) : knapsack.Timer {
+	return new knapsack.SystemTimer();
+});
 
 knapsack.run(options.options.filepath, strategy, outputFormatter, timer);
