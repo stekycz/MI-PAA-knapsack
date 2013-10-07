@@ -11,5 +11,5 @@ export function get_option(value : any, default_value : any = null, value_format
 }
 
 export function parse_items_count(filename : string) : number {
-	return parseInt(filename.trim().replace(/^knap_/, '').replace(/\.inst\.dat$/, ''));
+	return parseInt(filename.trim().replace(/^.*knap_/, '').replace(/\.inst\.dat$/, ''));
 }
