@@ -307,7 +307,9 @@ export function run(filepath : string, problemSolver : ProblemSolver, outputForm
 		if (outputFormatter) {
 			outputFormatter.printSolution(instance, solution);
 		}
-		errorCounter.addError(instance.getId(), solution.getPrice());
+		if (errorCounter) {
+			errorCounter.addError(instance.getId(), solution.getPrice());
+		}
 	}
 
 	if (timer) {
