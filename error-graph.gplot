@@ -3,12 +3,12 @@ reset
 # wxt
 #set terminal wxt size 1024,768 enhanced font 'Verdana,11' persist
 # png
-set terminal pngcairo size 1024,768 enhanced font 'Verdana,11'
-set output 'error-graph.png'
+#set terminal pngcairo size 1024,768 enhanced font 'Verdana,11'
+#set output 'error-graph.png'
 # svg
-#set terminal svg size 1024,768 fname 'Verdana, Helvetica, Arial, sans-serif' \
-#fsize '11'
-#set output 'error-graph.svg'
+set terminal svg size 1024,768 fname 'Verdana, Helvetica, Arial, sans-serif' \
+fsize '11'
+set output 'error-graph.svg'
 
 set border linewidth 1.5
 set style line 1 lc rgb '#ff0000' lt 1 lw 2 pt 7 pi -1 ps 1.5

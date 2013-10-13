@@ -229,6 +229,24 @@ export class SystemTimer implements Timer {
 
 		return time / this._times.length;
 	}
+
+	public getMinimumTime() : number {
+		var times = this._times.slice(0);
+		times.sort(function (a : number, b : number) : number {
+			return a - b;
+		});
+
+		return times.shift();
+	}
+
+	public getMaximumTime() : number {
+		var times = this._times.slice(0);
+		times.sort(function (a : number, b : number) : number {
+			return b - a;
+		});
+
+		return times.shift();
+	}
 }
 
 export class ProblemSolver {
@@ -314,7 +332,9 @@ export function run(filepath : string, problemSolver : ProblemSolver, outputForm
 
 	if (timer) {
 		var average_time = timer.getAverageTime();
-		console.log(name + " " + average_time);
+		var min_time = timer.getMinimumTime();
+		var max_time = timer.getMaximumTime();
+		console.log(name + " " + average_time + " " + min_time + " " + max_time);
 	}
 	if (errorCounter) {
 		var error = errorCounter.countRelativeError();
