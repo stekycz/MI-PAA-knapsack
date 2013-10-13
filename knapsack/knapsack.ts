@@ -1,6 +1,8 @@
 ///<reference path='../definitions/node.d.ts' />
+///<reference path="../common.ts"/>
 
 import fs = require("fs");
+import common = require("../common");
 
 export class Item {
 	private _weight : number;
@@ -227,6 +229,24 @@ export class SystemTimer implements Timer {
 
 		return time / this._times.length;
 	}
+
+	public getMinimumTime() : number {
+		var times = this._times.slice(0);
+		times.sort(function (a : number, b : number) : number {
+			return a - b;
+		});
+
+		return times.shift();
+	}
+
+	public getMaximumTime() : number {
+		var times = this._times.slice(0);
+		times.sort(function (a : number, b : number) : number {
+			return b - a;
+		});
+
+		return times.shift();
+	}
 }
 
 export class ProblemSolver {
@@ -243,7 +263,7 @@ export class ProblemSolver {
 			this._timer.onBegin();
 		}
 
-		var solution = this._find(items, maxWeight);
+		var solution = this._find(items.slice(0), maxWeight);
 
 		if (this._timer) {
 			this._timer.onFinish();
@@ -257,7 +277,43 @@ export class ProblemSolver {
 	}
 }
 
-export function run(filepath : string, problemSolver : ProblemSolver, outputFormatter : OutputFormatter, timer : SystemTimer) {
+export class ErrorCounter {
+	private _correctPrices : any;
+	private _errors : number[];
+
+	constructor(private filepath : string) {
+		this._correctPrices = [];
+		this._errors = [];
+
+		var rows = fs.readFileSync(filepath).toString("utf8").split(/\n/);
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i].trim() != '') {
+				var columns = rows[i].split(/\s+/);
+				this._correctPrices[columns[0]] = columns[2];
+			}
+		}
+	}
+
+	public addError(id : number, price : number) : ErrorCounter {
+		var relative_error = (this._correctPrices[id] - price) / this._correctPrices[id];
+		this._errors.push(relative_error);
+
+		return this;
+	}
+
+	public countRelativeError() : number {
+		var sum = 0;
+		for (var i = 0; i < this._errors.length; i++) {
+			sum += this._errors[i];
+		}
+
+
+		return (sum / this._errors.length) * 100; // to percentage
+	}
+}
+
+export function run(filepath : string, problemSolver : ProblemSolver, outputFormatter : OutputFormatter = null, timer : SystemTimer = null, errorCounter : ErrorCounter = null) {
+	var name = common.parse_items_count(filepath);
 	var parser = new Parser(filepath);
 	if (timer) {
 		problemSolver.setTimer(timer);
@@ -269,10 +325,19 @@ export function run(filepath : string, problemSolver : ProblemSolver, outputForm
 		if (outputFormatter) {
 			outputFormatter.printSolution(instance, solution);
 		}
+		if (errorCounter) {
+			errorCounter.addError(instance.getId(), solution.getPrice());
+		}
 	}
 
 	if (timer) {
-		var name = filepath.trim().replace(/^.*knap_/, '').replace(/\.inst\.dat$/, '');
-		console.log(name + " " + timer.getAverageTime());
+		var average_time = timer.getAverageTime();
+		var min_time = timer.getMinimumTime();
+		var max_time = timer.getMaximumTime();
+		console.log(name + " " + average_time + " " + min_time + " " + max_time);
+	}
+	if (errorCounter) {
+		var error = errorCounter.countRelativeError();
+		console.log(name + " " + error);
 	}
 }

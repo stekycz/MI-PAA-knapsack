@@ -1,0 +1,28 @@
+reset
+
+# wxt
+#set terminal wxt size 1024,768 enhanced font 'Verdana,11' persist
+# png
+#set terminal pngcairo size 1024,768 enhanced font 'Verdana,11'
+#set output 'error-graph.png'
+# svg
+set terminal svg size 1024,768 fname 'Verdana, Helvetica, Arial, sans-serif' \
+fsize '11'
+set output 'error-graph.svg'
+
+set border linewidth 1.5
+set style line 1 lc rgb '#ff0000' lt 1 lw 2 pt 7 pi -1 ps 1.5
+set pointintervalbox 3
+
+set tics scale 0.75
+
+set xrange [0:44]
+set yrange [0:5]
+
+set title "Knapsack relative error"
+set xlabel "Items count"
+set ylabel "Relative error (%)"
+
+set grid
+
+plot "errors.dat" title "Average relative error" with linespoints ls 1
