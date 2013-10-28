@@ -4,11 +4,13 @@
 ///<reference path="knapsack/knapsack.ts"/>
 ///<reference path="knapsack/bruteforce.ts"/>
 ///<reference path="knapsack/priceweight.ts"/>
+///<reference path="knapsack/bab.ts"/>
 
 import common = require("common");
 import knapsack = require("knapsack/knapsack");
 import bruteforce = require("knapsack/bruteforce");
 import priceweight = require("knapsack/priceweight");
+import bab = require("knapsack/bab");
 
 var opt = require("node-getopt").create([
 	['f', 'filepath=ARG', 'path to file with testing instances'],
@@ -44,6 +46,9 @@ var strategy = common.get_option(options.options.strategy, null, function (value
 			break;
 		case "bruteforce":
 			return bruteforce.create();
+			break;
+		case "bab":
+			return bab.create();
 			break;
 		default:
 			throw new Error("Unknown strategy");

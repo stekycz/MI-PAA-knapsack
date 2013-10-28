@@ -1,5 +1,5 @@
 {
-  "name": "MI-PAA - Knapsack",
+  "name": "MI-PAA-Knapsack",
   "version": "0.0.1",
   "description": "School project to try some solving methods of knapsack problem",
   "main": "app.js",
