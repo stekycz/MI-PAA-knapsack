@@ -11,6 +11,7 @@ import knapsack = require("knapsack/knapsack");
 import bruteforce = require("knapsack/bruteforce");
 import priceweight = require("knapsack/priceweight");
 import bab = require("knapsack/bab");
+import dynamic = require("knapsack/dynamic");
 
 var opt = require("node-getopt").create([
 	['f', 'filepath=ARG', 'path to file with testing instances'],
@@ -49,6 +50,9 @@ var strategy = common.get_option(options.options.strategy, null, function (value
 			break;
 		case "bab":
 			return bab.create();
+			break;
+		case "dynamic":
+			return dynamic.create();
 			break;
 		default:
 			throw new Error("Unknown strategy");

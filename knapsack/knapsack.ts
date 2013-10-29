@@ -114,6 +114,14 @@ export class Knapsack {
 		this._reset();
 	}
 
+	public clone() : Knapsack {
+		var knapsack = new Knapsack();
+		knapsack._weight = this._weight;
+		knapsack._price = this._price;
+		knapsack._items = this._items.slice(0);
+		return knapsack;
+	}
+
 	private _reset() : Knapsack {
 		this._weight = 0;
 		this._price = 0;
