@@ -2,7 +2,7 @@
 
 import k = require("knapsack");
 
-class Dynamic extends k.ProblemSolver {
+export class Dynamic extends k.ProblemSolver {
 
 	public _find(items : k.Item[], maxWeight : number) : k.Knapsack {
 		var weights = Dynamic._generateWeights(items, maxWeight);

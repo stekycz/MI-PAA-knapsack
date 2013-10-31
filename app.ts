@@ -4,7 +4,8 @@
 ///<reference path="knapsack/knapsack.ts"/>
 ///<reference path="knapsack/bruteforce.ts"/>
 ///<reference path="knapsack/priceweight.ts"/>
-///<reference path="knapsack/bab.ts"/>
+///<reference path="knapsack/dynamic.ts"/>
+///<reference path="knapsack/dynamic-fptas.ts"/>
 
 import common = require("common");
 import knapsack = require("knapsack/knapsack");
@@ -12,6 +13,7 @@ import bruteforce = require("knapsack/bruteforce");
 import priceweight = require("knapsack/priceweight");
 import bab = require("knapsack/bab");
 import dynamic = require("knapsack/dynamic");
+import dynamicFptas = require("knapsack/dynamic-fptas");
 
 var opt = require("node-getopt").create([
 	['f', 'filepath=ARG', 'path to file with testing instances'],
@@ -53,6 +55,9 @@ var strategy = common.get_option(options.options.strategy, null, function (value
 			break;
 		case "dynamic":
 			return dynamic.create();
+			break;
+		case "fptas":
+			return dynamicFptas.create();
 			break;
 		default:
 			throw new Error("Unknown strategy");

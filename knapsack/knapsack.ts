@@ -17,6 +17,11 @@ export class Item {
 		return this._price;
 	}
 
+	public setPrice(price : number) : Item {
+		this._price = price;
+		return this;
+	}
+
 	public getWeight() : number {
 		return this._weight;
 	}

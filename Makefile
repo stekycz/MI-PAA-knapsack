@@ -4,12 +4,12 @@ ITEMS_COUNT = 50
 # Compilation
 
 all:
-	tsc --module commonjs knapsack/knapsack.ts knapsack/bab.ts knapsack/dynamic.ts knapsack/priceweight.ts knapsack/bruteforce.ts common.ts app.ts parallel-runner.ts
+	tsc --module commonjs knapsack/knapsack.ts knapsack/bab.ts knapsack/dynamic.ts knapsack/dynamic-fptas.ts knapsack/priceweight.ts knapsack/bruteforce.ts common.ts app.ts parallel-runner.ts
 
 # Tests
 
 test-quick: all
-	node parallel-runner.js -i ./zadani -s dynamic -d $(QUICK_ITEMS_COUNT) -t ./reseni
+	node parallel-runner.js -i ./zadani -s fptas -d $(QUICK_ITEMS_COUNT) -t ./reseni
 
 test: all
 	node parallel-runner.js -i ./zadani -d $(ITEMS_COUNT) -t ./reseni
@@ -17,10 +17,10 @@ test: all
 # Times
 
 time-messure-quick: all
-	node parallel-runner.js -i ./zadani -s dynamic -d $(QUICK_ITEMS_COUNT) -m
+	node parallel-runner.js -i ./zadani -s fptas -d $(QUICK_ITEMS_COUNT) -m
 
 time-messure: all
-	node parallel-runner.js -i ./zadani -s dynamic -d $(ITEMS_COUNT) -m
+	node parallel-runner.js -i ./zadani -s fptas -d $(ITEMS_COUNT) -m
 
 graph-quick:
 	make -s time-messure-quick > times.dat
@@ -33,10 +33,10 @@ graph:
 # Errors
 
 error-messure-quick: all
-	node parallel-runner.js -i ./zadani -s dynamic -d $(QUICK_ITEMS_COUNT) -e ./reseni
+	node parallel-runner.js -i ./zadani -s fptas -d $(QUICK_ITEMS_COUNT) -e ./reseni
 
 error-messure: all
-	node parallel-runner.js -i ./zadani -s dynamic -d $(ITEMS_COUNT) -e ./reseni
+	node parallel-runner.js -i ./zadani -s fptas -d $(ITEMS_COUNT) -e ./reseni
 
 error-graph-quick:
 	make -s error-messure-quick > errors.dat
