@@ -11,13 +11,13 @@ function messure {
 	MAX_ITEMS=$2
 	FIND_ERRORS=$3
 
-	echo "Run time messure for $STRATEGY"
+	echo "Run time measure for $STRATEGY"
 	node parallel-runner.js -i ./zadani -s $STRATEGY -d $MAX_ITEMS -m > times.dat
 	gnuplot graph.gplot && svg2png graph.svg $DIR/graph-$STRATEGY.png
 	mv times.dat $DIR/times-$STRATEGY.dat
 
 	if $FIND_ERRORS; then
-		echo "Run error messure for $STRATEGY"
+		echo "Run error measure for $STRATEGY"
 		node parallel-runner.js -i ./zadani -s $STRATEGY -d $MAX_ITEMS -e ./reseni > errors.dat
 		gnuplot error-graph.gplot && svg2png error-graph.svg $DIR/error-graph-$STRATEGY.png
 		mv errors.dat $DIR/errors-$STRATEGY.dat
