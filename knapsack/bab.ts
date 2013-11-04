@@ -4,40 +4,47 @@ import k = require("knapsack");
 
 class BranchAndBounds extends k.ProblemSolver {
 
+	private _priceSums : number[]
+
 	public _find(items : k.Item[], maxWeight : number) : k.Knapsack {
-		return this._findRecursive(items, maxWeight, new k.Knapsack());
+		this._precomputePricesByDepth(items);
+		return this._findRecursive(items, maxWeight, new k.Knapsack(), new k.Knapsack(), 0);
 	}
 
-	private _findRecursive(items : k.Item[], maxWeight : number, knapsack : k.Knapsack) : k.Knapsack {
-		if (items.length < 1) {
-			return knapsack;
+	private _findRecursive(items : k.Item[], maxWeight : number, bestSolution : k.Knapsack, currentSolution : k.Knapsack, depth : number) : k.Knapsack {
+		if (items.length <= depth) {
+			return currentSolution;
 		}
 
-		var withElement = new k.Knapsack();
-		var withoutElement = new k.Knapsack();
-
-		withElement.setItems(knapsack.getItems());
-		withoutElement.setItems(knapsack.getItems());
-
-		withElement.addItem(items[0]);
-
-		if (BranchAndBounds._canFitToMaxWeight(items.slice(1), maxWeight, withElement)) {
-			withElement = this._findRecursive(items.slice(1), maxWeight, withElement);
+		if (bestSolution.getPrice() <= currentSolution.getPrice() + items[depth].getPrice() + this._priceSums[depth]
+			&& currentSolution.getWeight() + items[depth].getWeight() <= maxWeight
+		) {
+			var solution = currentSolution.clone();
+			solution.addItem(items[depth]);
+			solution = this._findRecursive(items, maxWeight, bestSolution, solution, depth + 1);
+			if (BranchAndBounds._isBetterSolution(solution, bestSolution, maxWeight)) {
+				bestSolution = solution.clone();
+			}
 		}
 
-		if (!BranchAndBounds._canHaveHigherPrice(withElement, withoutElement, items.slice(1), maxWeight)) {
-			return withElement;
+		if (bestSolution.getPrice() <= currentSolution.getPrice() + this._priceSums[depth]) {
+			currentSolution = this._findRecursive(items, maxWeight, bestSolution, currentSolution, depth + 1);
+			if (BranchAndBounds._isBetterSolution(currentSolution, bestSolution, maxWeight)) {
+				bestSolution = currentSolution.clone();
+			}
 		}
 
-		if (BranchAndBounds._canFitToMaxWeight(items.slice(1), maxWeight, withoutElement)) {
-			withoutElement = this._findRecursive(items.slice(1), maxWeight, withoutElement);
-		}
+		return bestSolution;
+	}
 
-		if (BranchAndBounds._isBetterSolution(withElement, withoutElement, maxWeight)) {
-			return withElement;
-		} else {
-			return withoutElement;
+	private _precomputePricesByDepth(items : k.Item[]) : void {
+		this._priceSums = [];
+		var sum = 0;
+		for (var depth = items.length - 1; 0 <= depth; depth--) {
+			this._priceSums.push(sum);
+			sum += items[depth].getPrice();
 		}
+		this._priceSums.reverse();
 	}
 
 	private static _isBetterSolution(knapsack : k.Knapsack, solution : k.Knapsack, maxWeight : number) : boolean {
@@ -51,29 +58,6 @@ class BranchAndBounds extends k.ProblemSolver {
 				)
 			)
 		);
-	}
-
-	private static _canHaveHigherPrice(knapsack : k.Knapsack, solution : k.Knapsack, items : k.Item[], maxWeight : number) : boolean {
-		return knapsack.getPrice() < solution.getPrice() + BranchAndBounds._countMaximumPossiblePriceRise(items, maxWeight, solution);
-	}
-
-	private static _countMaximumPossiblePriceRise(items : k.Item[], maxWeight : number, knapsack : k.Knapsack) : number {
-		var price_sum = 0;
-		for (var i = 0; i < items.length; i++) {
-			if (knapsack.getWeight() + items[i].getWeight() <= maxWeight) {
-				price_sum += items[i].getPrice();
-			}
-		}
-		return price_sum;
-	}
-
-	private static _canFitToMaxWeight(items : k.Item[], maxWeight : number, knapsack : k.Knapsack) : boolean {
-		for (var i = 0; i < items.length; i++) {
-			if (knapsack.getWeight() + items[i].getWeight() <= maxWeight) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 }
