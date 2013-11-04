@@ -17,7 +17,7 @@ set pointintervalbox 3
 set tics scale 0.75
 
 set xrange [0:44]
-set yrange [0:5]
+set autoscale ymax
 
 set title "Knapsack relative error"
 set xlabel "Items count"
