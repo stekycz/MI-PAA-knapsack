@@ -6,6 +6,9 @@ ITEMS_COUNT = 50
 all:
 	tsc --module commonjs knapsack/knapsack.ts knapsack/bab.ts knapsack/dynamic.ts knapsack/dynamic-fptas.ts knapsack/priceweight.ts knapsack/bruteforce.ts common.ts app.ts parallel-runner.ts
 
+clean:
+	rm *.js knapsack/*.js
+
 # Tests
 
 test-quick: all
