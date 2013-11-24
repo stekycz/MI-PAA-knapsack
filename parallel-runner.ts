@@ -66,8 +66,8 @@ files.sort(function (a : string, b : string) : number {
 
 function writeLines(lines : string[]) : void {
 	lines.sort(function (a : string, b : string) : number {
-		var num_a = parseInt(a.split(/\s+/).shift());
-		var num_b = parseInt(b.split(/\s+/).shift());
+		var num_a = parseFloat(a.split(/\s+/).shift());
+		var num_b = parseFloat(b.split(/\s+/).shift());
 		return num_a - num_b;
 	});
 	for (var i = 0; i < lines.length; i++) {
