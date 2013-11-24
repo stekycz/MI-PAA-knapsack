@@ -12,7 +12,7 @@ class DynamicFptas extends d.Dynamic {
 	}
 
 	private _omitBitsInPrices(items : k.Item[]) : k.Item[] {
-		var error = this._countError(items, 0.0);
+		var error = this._countError(items, 0.03);
 		for (var i = 0; i < items.length; i++) {
 			var price = items[i].getPrice();
 			price = this._omitBitsInPrice(price, error);
