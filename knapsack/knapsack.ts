@@ -327,6 +327,7 @@ export class ErrorCounter {
 
 export function run(filepath : string, problemSolver : ProblemSolver, outputFormatter : OutputFormatter = null, timer : SystemTimer = null, errorCounter : ErrorCounter = null) {
 	var name = common.parse_items_count(filepath);
+	var second_parametr = common.parse_second_size(filepath);
 	var parser = new Parser(filepath);
 	if (timer) {
 		problemSolver.setTimer(timer);
@@ -347,7 +348,7 @@ export function run(filepath : string, problemSolver : ProblemSolver, outputForm
 		var average_time = timer.getAverageTime();
 		var min_time = timer.getMinimumTime();
 		var max_time = timer.getMaximumTime();
-		console.log(name + " " + average_time + " " + min_time + " " + max_time);
+		console.log(name + " " + second_parametr + " " + average_time + " " + min_time + " " + max_time);
 	}
 	if (errorCounter) {
 		var error = errorCounter.countRelativeError();

@@ -1,0 +1,38 @@
+reset
+
+# wxt
+#set terminal wxt size 1024,768 enhanced font 'Verdana,11' persist
+# png
+#set terminal pngcairo size 1024,768 enhanced font 'Verdana,11'
+#set output 'graph_3d.png'
+# svg
+set terminal svg size 1024,768 fname 'Verdana, Helvetica, Arial, sans-serif' \
+fsize '11'
+set output 'graph_3d.svg'
+
+set border linewidth 1.5
+set style line 1 lc rgb 'ff0000' lt 1 lw 2 pt 7 pi -1 ps 1.5
+set style line 2 lc rgb '00ff00' lt 1 lw 2 pt 7 pi -1 ps 1.5
+set style line 3 lc rgb 'ff00ff' lt 1 lw 2 pt 7 pi -1 ps 1.5
+set pointintervalbox 3
+
+set tics scale 0.75
+
+set xrange [7.5:32.5]
+set yrange [0.000001:]
+
+set title "Knapsack times"
+set xlabel "Items count"
+set ylabel "Time (s)"
+
+set logscale y
+set grid
+
+set boxwidth 0.2
+set style fill solid
+
+bin(x,type)=(x - 2.1) + (type * 10 * 0.2)
+
+rgb(type) = ((type / 2) * 256 * 65536) + ((type / 2) * 256 * 256) + ((type / 2) * 256)
+
+plot "times.dat" using (bin($1,$2)):3:(rgb($2)) with boxes lc rgb variable notitle
