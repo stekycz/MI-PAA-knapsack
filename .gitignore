@@ -2,6 +2,8 @@
 *.png
 *.sublime*
 *.js
+*.svg
+/knapgen/knapgen
 /node_modules
 /*.dat
 /results
