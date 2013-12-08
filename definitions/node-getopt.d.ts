@@ -10,8 +10,8 @@ declare class GetOpt {
 	public static MULTI_SUPPORTED : boolean;
 	public static SINGLE_ONLY : boolean;
 	public static VERSION : string;
-	constructor(options : Array[]);
-	public parse(argv : Array) : GetOpt;
+	constructor(options : any[]);
+	public parse(argv : any[]) : GetOpt;
 	public parseSystem() : GetOpt;
 	public setHelp(help : any) : string;
 	public getHelp() : string;
@@ -19,6 +19,6 @@ declare class GetOpt {
 	public bindHelp(help : any) : GetOpt;
 	public getVersion() : string;
 	public error(errorFunc : any) : GetOpt;
-	public static create(options : Array[]) : GetOpt;
+	public static create(options : any[]) : GetOpt;
 	public static getVersion() : string;
 }
