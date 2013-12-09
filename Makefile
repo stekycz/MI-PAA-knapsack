@@ -12,18 +12,18 @@ clean:
 # Tests
 
 test-quick: all
-	node parallel-runner.js -i ./zadani -s fptas -d $(QUICK_ITEMS_COUNT) -t ./reseni
+	node parallel-runner.js -i ./zadani -s annealing -d $(QUICK_ITEMS_COUNT) -t ./reseni
 
 test: all
-	node parallel-runner.js -i ./zadani -d $(ITEMS_COUNT) -t ./reseni
+	node parallel-runner.js -i ./zadani -s annealing -d $(ITEMS_COUNT) -t ./reseni
 
 # Times
 
 time-messure-quick: all
-	node parallel-runner.js -i ./zadani -s fptas -d $(QUICK_ITEMS_COUNT) -m
+	node parallel-runner.js -i ./zadani -s annealing -d $(QUICK_ITEMS_COUNT) -m
 
 time-messure: all
-	node parallel-runner.js -i ./zadani -s fptas -d $(ITEMS_COUNT) -m
+	node parallel-runner.js -i ./zadani -s annealing -d $(ITEMS_COUNT) -m
 
 graph-quick:
 	make -s time-messure-quick > times.dat
@@ -36,10 +36,10 @@ graph:
 # Errors
 
 error-messure-quick: all
-	node parallel-runner.js -i ./zadani -s fptas -d $(QUICK_ITEMS_COUNT) -e ./reseni
+	node parallel-runner.js -i ./zadani -s annealing -d $(QUICK_ITEMS_COUNT) -e ./reseni
 
 error-messure: all
-	node parallel-runner.js -i ./zadani -s fptas -d $(ITEMS_COUNT) -e ./reseni
+	node parallel-runner.js -i ./zadani -s annealing -d $(ITEMS_COUNT) -e ./reseni
 
 error-graph-quick:
 	make -s error-messure-quick > errors.dat
