@@ -1,11 +1,10 @@
 ///<reference path='definitions/node.d.ts' />
 ///<reference path="definitions/node-getopt.d.ts"/>
-///<reference path="common.ts"/>
 
 import os = require("os");
 import fs = require("fs");
 import child_process = require('child_process');
-import common = require("common");
+import common = require("./common");
 
 var opt = require("node-getopt").create([
 	['i', 'instances=ARG', 'directory with instances'],

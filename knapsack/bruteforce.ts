@@ -1,6 +1,6 @@
 ///<reference path="knapsack.ts"/>
 
-import k = require("knapsack");
+import k = require("./knapsack");
 
 class BruteForce extends k.ProblemSolver {
 	public _find(items : k.Item[], maxWeight : number) : k.Knapsack {

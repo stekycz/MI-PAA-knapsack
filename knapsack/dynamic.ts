@@ -1,6 +1,6 @@
 ///<reference path="knapsack.ts"/>
 
-import k = require("knapsack");
+import k = require("./knapsack");
 
 export class Dynamic extends k.ProblemSolver {
 

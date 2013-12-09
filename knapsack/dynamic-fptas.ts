@@ -1,8 +1,8 @@
 ///<reference path="knapsack.ts"/>
 ///<reference path="dynamic.ts"/>
 
-import k = require("knapsack");
-import d = require("dynamic");
+import k = require("./knapsack");
+import d = require("./dynamic");
 
 class DynamicFptas extends d.Dynamic {
 

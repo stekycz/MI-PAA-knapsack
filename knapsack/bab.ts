@@ -1,6 +1,6 @@
 ///<reference path="knapsack.ts"/>
 
-import k = require("knapsack");
+import k = require("./knapsack");
 
 class BranchAndBounds extends k.ProblemSolver {
 

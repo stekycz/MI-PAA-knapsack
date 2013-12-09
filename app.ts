@@ -1,21 +1,14 @@
 ///<reference path='definitions/node.d.ts' />
 ///<reference path="definitions/node-getopt.d.ts"/>
-///<reference path="common.ts"/>
-///<reference path="knapsack/knapsack.ts"/>
-///<reference path="knapsack/bruteforce.ts"/>
-///<reference path="knapsack/priceweight.ts"/>
-///<reference path="knapsack/dynamic.ts"/>
-///<reference path="knapsack/dynamic-fptas.ts"/>
-///<reference path="knapsack/simulated-annealing.ts"/>
 
-import common = require("common");
-import knapsack = require("knapsack/knapsack");
-import bruteforce = require("knapsack/bruteforce");
-import priceweight = require("knapsack/priceweight");
-import bab = require("knapsack/bab");
-import dynamic = require("knapsack/dynamic");
-import dynamicFptas = require("knapsack/dynamic-fptas");
-import simulatedAnnealing = require("knapsack/simulated-annealing");
+import common = require("./common");
+import knapsack = require("./knapsack/knapsack");
+import bruteforce = require("./knapsack/bruteforce");
+import priceweight = require("./knapsack/priceweight");
+import bab = require("./knapsack/bab");
+import dynamic = require("./knapsack/dynamic");
+import dynamicFptas = require("./knapsack/dynamic-fptas");
+import simulatedAnnealing = require("./knapsack/simulated-annealing");
 
 var opt = require("node-getopt").create([
 	['f', 'filepath=ARG', 'path to file with testing instances'],
