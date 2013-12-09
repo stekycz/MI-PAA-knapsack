@@ -4,7 +4,7 @@ ITEMS_COUNT = 50
 # Compilation
 
 all:
-	tsc --module commonjs knapsack/knapsack.ts knapsack/bab.ts knapsack/dynamic.ts knapsack/dynamic-fptas.ts knapsack/priceweight.ts knapsack/bruteforce.ts common.ts app.ts parallel-runner.ts
+	tsc --module commonjs knapsack/knapsack.ts knapsack/bab.ts knapsack/dynamic.ts knapsack/dynamic-fptas.ts knapsack/priceweight.ts knapsack/bruteforce.ts knapsack/simulated-annealing.ts common.ts app.ts parallel-runner.ts
 
 clean:
 	rm *.js knapsack/*.js

@@ -29,3 +29,6 @@ messure dynamic # 40 false
 
 # fptas
 messure fptas # 40 true
+
+# simulated annealing
+messure annealing # 40 true
